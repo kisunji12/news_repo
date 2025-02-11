@@ -1,0 +1,31 @@
+<!-- news/templates/news/index.html -->
+{% extends 'news/base.html' %}
+
+{% block content %}
+<h1 class="mb-4">Latest News</h1>
+
+<!-- Search Form -->
+<form method="get" action="{% url 'search' %}" class="form-inline mb-4">
+    <input type="text" name="city" class="form-control mr-2" placeholder="Search by City" required>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<div class="row">
+    {% for article in articles %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            {% if article.image %}
+            <img src="{{ article.image }}" class="card-img-top" alt="Article Image">
+            {% endif %}
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">{{ article.title }}</h5>
+                <p class="card-text">{{ article.description|default:"No description available." }}</p>
+                <a href="{{ article.url }}" class="mt-auto btn btn-primary" target="_blank">Read More</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>No news articles found.</p>
+    {% endfor %}
+</div>
+{% endblock %}
